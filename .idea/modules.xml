@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/restAddon.iml" filepath="$PROJECT_DIR$/restAddon.iml" />
+      <module fileurl="file://$PROJECT_DIR$/api/restAddon-api.iml" filepath="$PROJECT_DIR$/api/restAddon-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/omod/restAddon-omod.iml" filepath="$PROJECT_DIR$/omod/restAddon-omod.iml" />
+    </modules>
+  </component>
+</project>

@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+                  http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+    <!--
+        See http://www.liquibase.org/manual/home#available_database_refactorings
+        for a list of supported elements and attributes
+    -->
+    <changeSet id="restAddon-2015-10-13_create_provider_list" author="werick">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="provider_list"/>
+            </not>
+        </preConditions>
+        <comment>
+            Schema for custom provider patient list table
+        </comment>
+        <createTable tableName="provider_list">
+            <column name="provider_list_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="provider_id" type="int"/>
+            <column name="list_description" type="varchar(255)"/>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" defaultValueNumeric="0" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changed_by" type="int"/>
+            <column name="date_changed" type="datetime"/>
+            <column name="uuid" type="char(38)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="provider_list" baseColumnNames="provider_id" constraintName="provider for patient list" referencedTableName="provider" referencedColumnNames="provider_id" deferrable="false" initiallyDeferred="false" />
+        <addForeignKeyConstraint baseTableName="provider_list" baseColumnNames="creator" constraintName="creator for patient_list" referencedTableName="users" referencedColumnNames="user_id" deferrable="false" initiallyDeferred="false" />
+        <addForeignKeyConstraint baseTableName="provider_list" baseColumnNames="changed_by" constraintName="changed_by for patient_list" referencedTableName="users" referencedColumnNames="user_id" deferrable="false" initiallyDeferred="false" />
+    </changeSet>
+
+    <changeSet id="restAddon-2015-10-13_create_patient_list" author="werick">
+        <preConditions onFail="MARK_RAN">
+            <not>
+                <tableExists tableName="patient_list"/>
+            </not>
+        </preConditions>
+        <comment>
+            Schema for custom patient list table
+        </comment>
+        <createTable tableName="patient_list">
+            <column name="patient_list_id" type="int" autoIncrement="true">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="provider_list_id" type="int"/>
+            <column name="patient_id" type="int"/>
+            <column name="date_created" type="DATETIME">
+                <constraints nullable="false"/>
+            </column>
+            <column name="creator" defaultValueNumeric="0" type="int">
+                <constraints nullable="false"/>
+            </column>
+            <column name="changed_by" type="int"/>
+            <column name="date_changed" type="datetime"/>
+            <column name="uuid" type="char(38)">
+                <constraints unique="true" nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="patient_list" baseColumnNames="provider_list_id" constraintName="provider_list_id for patient list" referencedTableName="provider_list" referencedColumnNames="provider_list_id" deferrable="false" initiallyDeferred="false" />
+        <addForeignKeyConstraint baseTableName="patient_list" baseColumnNames="patient_id" constraintName="patient for patient list" referencedTableName="patient" referencedColumnNames="patient_id" deferrable="false" initiallyDeferred="false" />
+        <addForeignKeyConstraint baseTableName="patient_list" baseColumnNames="creator" constraintName="creator for patient_list" referencedTableName="users" referencedColumnNames="user_id" deferrable="false" initiallyDeferred="false" />
+        <addForeignKeyConstraint baseTableName="patient_list" baseColumnNames="changed_by" constraintName="changed_by for patient_list" referencedTableName="users" referencedColumnNames="user_id" deferrable="false" initiallyDeferred="false" />
+    </changeSet>
+
+</databaseChangeLog>
